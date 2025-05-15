@@ -1,12 +1,20 @@
-import http from 'http';
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-const PORT = 3000;
+import { weatherRoute } from './routes/weather.route';
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ message: 'Hello, TypeScript!' }));
-});
+dotenv.config();
 
-server.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/weather', weatherRoute);
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT} ☁️`);
 });
